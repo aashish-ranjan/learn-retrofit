@@ -45,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
 
         retrofitAPI = retrofit.create(IRetrofitAPI.class);
 //        getPostList();
-//        getPost(3);
-//        getCommentListWithPathParam(3);
-//        getCommentListWithQueryParam(3);
+//        getPost("3");
+//        getCommentListWithPathParam("3");
+//        getCommentListWithQueryParam("3");
         createPost();
 //          editPostWithPut(3);
 //          editPostWithPatch(3);
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    private void getPost(int postId) {
+    private void getPost(String postId) {
         Call<Post> call = retrofitAPI.getPost(postId);
 
         call.enqueue(new Callback<Post>() {
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    private void getCommentListWithPathParam(int postId) {
+    private void getCommentListWithPathParam(String postId) {
         Call<List<Comment>> call = retrofitAPI.getCommentListWithPathParam(postId);
         call.enqueue(new Callback<List<Comment>>() {
             @Override
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    private void getCommentListWithQueryParam(int postId) {
+    private void getCommentListWithQueryParam(String postId) {
         Call<List<Comment>> call = retrofitAPI.getCommentListWithQueryParam(postId);
         call.enqueue(new Callback<List<Comment>>() {
             @Override

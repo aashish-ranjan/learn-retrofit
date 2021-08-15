@@ -15,13 +15,13 @@ public interface IRetrofitAPI {
     Call<List<Post>> getPostList();
 
     @GET("posts/{postId}")
-    Call<Post> getPost(@Path("postId") int postId);
+    Call<Post> getPost(@Path("postId") String postId);
 
     @GET("posts/{postId}/comments")
-    Call<List<Comment>> getCommentListWithPathParam(@Path("postId") int postId);
+    Call<List<Comment>> getCommentListWithPathParam(@Path("postId") String postId);
 
     @GET("comments")
-    Call<List<Comment>> getCommentListWithQueryParam(@Query("postId") int postId);
+    Call<List<Comment>> getCommentListWithQueryParam(@Query("postId") String postId);
 
     @POST("posts")
     Call<Post> createPost(@Body Post post);
