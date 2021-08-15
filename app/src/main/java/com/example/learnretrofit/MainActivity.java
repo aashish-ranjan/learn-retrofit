@@ -18,6 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
     PostRecyclerViewAdapter mPostRecyclerViewAdapter;
+    IRetrofitAPI retrofitAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +36,13 @@ public class MainActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        IRetrofitAPI service = retrofit.create(IRetrofitAPI.class);
-        Call<List<Post>> call = service.getPostList();
+        retrofitAPI = retrofit.create(IRetrofitAPI.class);
+//        getPostList();
+        getPost(3);
+    }
+
+    private void getPostList() {
+        Call<List<Post>> call = retrofitAPI.getPostList();
 
         call.enqueue(new Callback<List<Post>>() {
             @Override
@@ -51,6 +57,28 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Post>> call, Throwable t) {
+                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void getPost(int postId) {
+        Call<Post> call = retrofitAPI.getPost(postId);
+
+        call.enqueue(new Callback<Post>() {
+            @Override
+            public void onResponse(Call<Post> call, Response<Post> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(MainActivity.this, response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Post post = response.body();
+                List<Post> postList = new ArrayList<>();
+                postList.add(post);
+                mPostRecyclerViewAdapter.loadData(postList);
+            }
+
+            @Override
+            public void onFailure(Call<Post> call, Throwable t) {
                 Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
