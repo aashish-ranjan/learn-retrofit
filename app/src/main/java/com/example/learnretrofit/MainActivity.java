@@ -47,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
 //        getPostList();
 //        getPost(3);
 //        getCommentListWithPathParam(3);
-        getCommentListWithQueryParam(3);
+//        getCommentListWithQueryParam(3);
+        editPost(2);
     }
 
     private void getPostList() {
@@ -129,6 +130,29 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    private void editPost(int postId) {
+        Post post = new Post("5", String.valueOf(postId), null, "updated body");
+        Call<Post> call = retrofitAPI.editPost(post);
+        call.enqueue(new Callback<Post>() {
+            @Override
+            public void onResponse(Call<Post> call, Response<Post> response) {
+                if(!response.isSuccessful()) {
+                    Toast.makeText(MainActivity.this, response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Post updatedPost = response.body();
+                List<Post> postList = new ArrayList<>();
+                postList.add(updatedPost);
+                mPostRecyclerViewAdapter.loadData(postList);
+            }
+
+            @Override
+            public void onFailure(Call<Post> call, Throwable t) {
+                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
 }
