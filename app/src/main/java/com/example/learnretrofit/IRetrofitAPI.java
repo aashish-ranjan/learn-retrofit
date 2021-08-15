@@ -13,4 +13,7 @@ public interface IRetrofitAPI {
 
     @GET("posts/{postId}")
     Call<Post> getPost(@Path("postId") int postId);
+
+    @GET("posts/{postId}/comments")
+    Call<List<Comment>> getCommentListWithPathParam(@Path("postId") int postId);
 }

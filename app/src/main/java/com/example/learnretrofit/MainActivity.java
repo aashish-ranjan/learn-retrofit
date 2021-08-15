@@ -18,6 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
     PostRecyclerViewAdapter mPostRecyclerViewAdapter;
+    CommentRecyclerViewAdapter mCommentRecyclerViewAdapter;
     IRetrofitAPI retrofitAPI;
 
     @Override
@@ -31,6 +32,12 @@ public class MainActivity extends AppCompatActivity {
         mPostRecyclerViewAdapter = new PostRecyclerViewAdapter(this, new ArrayList<>());
         postRecyclerView.setAdapter(mPostRecyclerViewAdapter);
 
+        RecyclerView commentRecyclerView = findViewById(R.id.rv_comment);
+        commentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        commentRecyclerView.setHasFixedSize(true);
+        mCommentRecyclerViewAdapter = new CommentRecyclerViewAdapter(this, new ArrayList<>());
+        commentRecyclerView.setAdapter(mCommentRecyclerViewAdapter);
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://jsonplaceholder.typicode.com/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -38,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
         retrofitAPI = retrofit.create(IRetrofitAPI.class);
 //        getPostList();
-        getPost(3);
+//        getPost(3);
+        getCommentListWithPathParam(3);
     }
 
     private void getPostList() {
@@ -79,6 +87,25 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Post> call, Throwable t) {
+                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void getCommentListWithPathParam(int postId) {
+        Call<List<Comment>> call = retrofitAPI.getCommentListWithPathParam(postId);
+        call.enqueue(new Callback<List<Comment>>() {
+            @Override
+            public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
+                if(!response.isSuccessful()) {
+                    Toast.makeText(MainActivity.this, response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                List<Comment> commentList = response.body();
+                mCommentRecyclerViewAdapter.loadData(commentList);
+            }
+
+            @Override
+            public void onFailure(Call<List<Comment>> call, Throwable t) {
                 Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
