@@ -49,4 +49,8 @@ public interface IRetrofitAPI {
 
     @DELETE("posts/{id}")
     Call<Void> deletePost(@Path("id") String postId);
+
+    @PATCH("posts/{id}")
+    Call<Post> editPostWithPatchAndForcedNullFields(@Path("id") String postId, @Body Post post);
+
 }

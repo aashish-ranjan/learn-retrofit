@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
 //        getCommentListWithPathParam("3");
 //        getCommentListWithQueryParam("3");
 //        createPost();
-//          editPost("3");
-          deletePost("3");
+          editPost("3");
+//          deletePost("3");
     }
 
     private void getPostList() {
@@ -172,9 +175,18 @@ public class MainActivity extends AppCompatActivity {
 //        Post post = new Post("5", null, "updated body");
 //        Call<Post> call = retrofitAPI.editPostWithPut(postId, post);
 
-        //update with PATCH request
+//        //update with PATCH request
+//        Post post = new Post("5", null, "updated body");
+
+        //update with PATCH request and forced null fields
+        Gson gson = new GsonBuilder().serializeNulls().create();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://jsonplaceholder.typicode.com/")
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+        retrofitAPI = retrofit.create(IRetrofitAPI.class);
         Post post = new Post("5", null, "updated body");
-        Call<Post> call = retrofitAPI.editPostWithPatch(postId, post);
+        Call<Post> call = retrofitAPI.editPostWithPatchAndForcedNullFields(postId, post);
 
         call.enqueue(new Callback<Post>() {
             @Override
