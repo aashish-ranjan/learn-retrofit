@@ -24,5 +24,5 @@ public interface IRetrofitAPI {
     Call<List<Comment>> getCommentListWithQueryParam(@Query("postId") int postId);
 
     @POST("posts")
-    Call<Post> editPost(@Body Post post);
+    Call<Post> createPost(@Body Post post);
 }

@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 //        getPost(3);
 //        getCommentListWithPathParam(3);
 //        getCommentListWithQueryParam(3);
-        editPost(2);
+        createPost();
     }
 
     private void getPostList() {
@@ -131,9 +131,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    private void editPost(int postId) {
-        Post post = new Post("5", String.valueOf(postId), null, "updated body");
-        Call<Post> call = retrofitAPI.editPost(post);
+    private void createPost() {
+        Post post = new Post("5", null, "sample title", "sample body");
+        Call<Post> call = retrofitAPI.createPost(post);
         call.enqueue(new Callback<Post>() {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
@@ -154,5 +154,4 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
 }
