@@ -49,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
 //        getCommentListWithPathParam(3);
 //        getCommentListWithQueryParam(3);
         createPost();
+//          editPostWithPut(3);
+//          editPostWithPatch(3);
+//          deletePost(3);
     }
 
     private void getPostList() {
@@ -58,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(MainActivity.this, response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, response.code() + " Response", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 List<Post> postList = response.body();
@@ -78,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(MainActivity.this, response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, response.code() + " Response", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Post post = response.body();
@@ -99,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
                 if(!response.isSuccessful()) {
-                    Toast.makeText(MainActivity.this, response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, response.code() + " Response", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 List<Comment> commentList = response.body();
@@ -118,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
                 if(!response.isSuccessful()) {
-                    Toast.makeText(MainActivity.this, response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, response.code() + " Response", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 List<Comment> commentList = response.body();
@@ -138,13 +141,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
                 if(!response.isSuccessful()) {
-                    Toast.makeText(MainActivity.this, response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, response.code() + " Response", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Post updatedPost = response.body();
                 List<Post> postList = new ArrayList<>();
                 postList.add(updatedPost);
                 mPostRecyclerViewAdapter.loadData(postList);
+                Toast.makeText(MainActivity.this, response.code() + " Response", Toast.LENGTH_SHORT).show();
             }
 
             @Override
