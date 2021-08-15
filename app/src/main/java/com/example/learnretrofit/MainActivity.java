@@ -50,9 +50,8 @@ public class MainActivity extends AppCompatActivity {
 //        getPost("3");
 //        getCommentListWithPathParam("3");
 //        getCommentListWithQueryParam("3");
-        createPost();
-//          editPostWithPut(3);
-//          editPostWithPatch(3);
+//        createPost();
+          editPost("3");
 //          deletePost(3);
     }
 
@@ -138,11 +137,11 @@ public class MainActivity extends AppCompatActivity {
     }
     private void createPost() {
 
-////        Post Request with Body
+//        //Post Request with Body
 //        Post post = new Post("5", "new title", "new body");
 //        Call<Post> call = retrofitAPI.createPost(post);
 
-////        Post Request with url encoded fields
+//        //Post Request with url encoded fields
 //        Call<Post> call = retrofitAPI.createPost("5", "new title");
 
         Map<String, String> postableFields = new HashMap<>();
@@ -153,14 +152,12 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<Post>() {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
-                if(!response.isSuccessful()) {
-                    Toast.makeText(MainActivity.this, response.code() + " Response", Toast.LENGTH_SHORT).show();
-                    return;
+                if(response.isSuccessful()) {
+                    Post createdPost = response.body();
+                    List<Post> postList = new ArrayList<>();
+                    postList.add(createdPost);
+                    mPostRecyclerViewAdapter.loadData(postList);
                 }
-                Post updatedPost = response.body();
-                List<Post> postList = new ArrayList<>();
-                postList.add(updatedPost);
-                mPostRecyclerViewAdapter.loadData(postList);
                 Toast.makeText(MainActivity.this, response.code() + " Response", Toast.LENGTH_SHORT).show();
             }
 
@@ -169,6 +166,32 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    private void editPost(String postId) {
+//        //update with PUT request
+//        Post post = new Post("5", null, "updated body");
+//        Call<Post> call = retrofitAPI.editPostWithPut(postId, post);
 
+        //update with PATCH request
+        Post post = new Post("5", null, "updated body");
+        Call<Post> call = retrofitAPI.editPostWithPatch(postId, post);
+
+        call.enqueue(new Callback<Post>() {
+            @Override
+            public void onResponse(Call<Post> call, Response<Post> response) {
+                if(response.isSuccessful()) {
+                    Post updatedPost = response.body();
+                    List<Post> postList = new ArrayList<>();
+                    postList.add(updatedPost);
+                    mPostRecyclerViewAdapter.loadData(postList);
+                }
+                Toast.makeText(MainActivity.this, response.code() + " Response", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Post> call, Throwable t) {
+                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
