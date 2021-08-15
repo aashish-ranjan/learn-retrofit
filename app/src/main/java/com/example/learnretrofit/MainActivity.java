@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     private void createPost() {
-        Post post = new Post("5", null, "sample title", "sample body");
+        Post post = new Post("5", "new title", "new body");
         Call<Post> call = retrofitAPI.createPost(post);
         call.enqueue(new Callback<Post>() {
             @Override
