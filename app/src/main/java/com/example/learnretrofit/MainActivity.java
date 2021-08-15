@@ -51,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
 //        getCommentListWithPathParam("3");
 //        getCommentListWithQueryParam("3");
 //        createPost();
-          editPost("3");
-//          deletePost(3);
+//          editPost("3");
+          deletePost("3");
     }
 
     private void getPostList() {
@@ -190,6 +190,22 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Post> call, Throwable t) {
+                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void deletePost(String postId) {
+        Call<Void> call = retrofitAPI.deletePost(postId);
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Toast.makeText(MainActivity.this, response.code() + " Response", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
                 Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -45,4 +46,7 @@ public interface IRetrofitAPI {
 
     @PATCH("posts/{id}")
     Call<Post> editPostWithPatch(@Path("id") String postId, @Body Post post);
+
+    @DELETE("posts/{id}")
+    Call<Void> deletePost(@Path("id") String postId);
 }
