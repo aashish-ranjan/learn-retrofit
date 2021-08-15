@@ -46,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
         retrofitAPI = retrofit.create(IRetrofitAPI.class);
 //        getPostList();
 //        getPost(3);
-        getCommentListWithPathParam(3);
+//        getCommentListWithPathParam(3);
+        getCommentListWithQueryParam(3);
     }
 
     private void getPostList() {
@@ -110,4 +111,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    private void getCommentListWithQueryParam(int postId) {
+        Call<List<Comment>> call = retrofitAPI.getCommentListWithQueryParam(postId);
+        call.enqueue(new Callback<List<Comment>>() {
+            @Override
+            public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
+                if(!response.isSuccessful()) {
+                    Toast.makeText(MainActivity.this, response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                List<Comment> commentList = response.body();
+                mCommentRecyclerViewAdapter.loadData(commentList);
+            }
+
+            @Override
+            public void onFailure(Call<List<Comment>> call, Throwable t) {
+                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface IRetrofitAPI {
 
@@ -16,4 +17,7 @@ public interface IRetrofitAPI {
 
     @GET("posts/{postId}/comments")
     Call<List<Comment>> getCommentListWithPathParam(@Path("postId") int postId);
+
+    @GET("comments")
+    Call<List<Comment>> getCommentListWithQueryParam(@Query("postId") int postId);
 }
