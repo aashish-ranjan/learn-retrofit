@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -136,13 +138,18 @@ public class MainActivity extends AppCompatActivity {
     }
     private void createPost() {
 
-//        Post Request with Body
+////        Post Request with Body
 //        Post post = new Post("5", "new title", "new body");
 //        Call<Post> call = retrofitAPI.createPost(post);
 
-        //Post Request with url encoded fields
-        Call<Post> call = retrofitAPI.createPost("5", "new title");
-        
+////        Post Request with url encoded fields
+//        Call<Post> call = retrofitAPI.createPost("5", "new title");
+
+        Map<String, String> postableFields = new HashMap<>();
+        postableFields.put("userId", "5");
+        postableFields.put("body", "new Body");
+        Call<Post> call = retrofitAPI.createPost(postableFields);
+
         call.enqueue(new Callback<Post>() {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
